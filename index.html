@@ -5,9 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>ZJY's web</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    
 </head>
 <body>
-    <div id="app-5">
+    <div id="FilePush">
+        选择图片:<input type="file" id="fileup">
+        <button v-on:click="FileUpload">{{message}}</button>
+        <img src="" id="img">
+    </div>
+    <script>
+        var FilePush = new Vue({
+          el: '#FilePush',
+          data:{
+            message:'上传'
+          },
+          methods:{
+            FileUpload:function(){
+              var file = document.getElementById('fileup').files[0];
+              var fr = new FileReader();
+              fr.readAsDataURL(file);
+              var result = fr.onload = function(e){
+                  document.getElementById('img').src=this.result;
+                  saveAs(this.result,'test.jpg');
+                  
+              }
+            }
+          }
+        })
+
+    </script>
+
+    <script>
+    // 下载
+    function downloadIamge(selector, name) {
+        // 通过选择器获取img元素
+        var img = document.querySelector(selector)
+        // 将图片的src属性作为URL地址
+        var url = img.src
+        var a = document.createElement('a')
+        var event = new MouseEvent('click')
+        
+        a.download = name || '下载图片名称'
+        a.href = url
+        
+        a.dispatchEvent(event)
+    }
+    
+    // 调用方式
+    // 参数一： 选择器,代表img标签
+    // 参数二： 图片名称，可选
+
+    downloadIamge('canvas', '图片名称')
+    </script>
+    <!-- <div id="app-5">
         <p>{{ message }}</p>
         <button v-on:click="reverseMessage">反转消息</button>
       </div>
@@ -23,6 +73,18 @@
           }
         }
       })
-    </script>
+    </script> -->
+
+    <!-- function readAsText(){  
+      var file = document.getElementById("file").files[0];  
+      var reader = new FileReader();  
+      //将文件以文本形式读入页面  
+      reader.readAsText(file);  
+      reader.onload=function(f){  
+          var result=document.getElementById("result");  
+          //显示文件  
+          result.innerHTML=this.result;  
+      }  
+  }  -->
 </body>
 </html>
